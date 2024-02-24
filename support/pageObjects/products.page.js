@@ -28,6 +28,10 @@ class ProductsPage {
       return this.page.locator('[data-test="add-to-cart-sauce-labs-backpack"]');
     }
 
+    get backpackRemoveCartButton() {
+      return this.page.locator('[data-test="remove-sauce-labs-backpack"]');
+    }
+
     get bikeAddToCartButton () {
       return this.page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]');
     }

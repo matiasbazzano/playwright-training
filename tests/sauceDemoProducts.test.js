@@ -72,6 +72,19 @@ describe('SauceDemo Page Testing - Products', () => {
     expect(cartItemCount).toBe('6');
   });
 
+  test('@Regression - Add 1 product and check remove button', async ({ page }) => {
+    const productsPage = new ProductsPage(page);
+    await productsPage.backpackAddToCartButton.click();
+    await expect(productsPage.backpackRemoveCartButton).toBeVisible();
+  });
+
+  test('@Regression - Add 1 product, remove and check Shopping Cart Badge', async ({ page }) => {
+    const productsPage = new ProductsPage(page);
+    await productsPage.backpackAddToCartButton.click();
+    await productsPage.backpackRemoveCartButton.click();
+    await expect(productsPage.shoppingCartBadge).toBeHidden();
+  });
+
   test('@Smoke - Log out button', async ({ page }) => {
     const productsPage = new ProductsPage(page);
     await productsPage.menuOptionsButton.click();

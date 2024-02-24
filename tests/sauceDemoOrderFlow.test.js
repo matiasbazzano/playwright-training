@@ -10,7 +10,7 @@ import OrderData from '../data/orderData.js';
 import BaseData from '../data/baseData.js';
 
 
-describe('SauceDemo Page Testing - Shopping Cart', () => {
+describe('SauceDemo Page Testing - Order Flow', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(BaseData.baseUrl);
     const loginPage = new LoginPage(page);
@@ -25,6 +25,29 @@ describe('SauceDemo Page Testing - Shopping Cart', () => {
     const checkoutStepOnePage = new CheckoutStepOnePage(page);
     const checkoutStepTwoPage = new CheckoutStepTwoPage(page);
     await productsPage.backpackAddToCartButton.click();
+    await productsPage.shoppingCartButton.click();
+    await shoppingCartPage.checkoutButton.click();
+    await expect(page).toHaveURL(GeneralData.checkoutStepOneUrl);
+    await checkoutStepOnePage.firstNameInput.fill(OrderData.firstName);
+    await checkoutStepOnePage.lastNameInput.fill(OrderData.lastName);
+    await checkoutStepOnePage.zipCodeInput.fill(OrderData.zipCode);
+    await checkoutStepOnePage.continueButton.click();
+    await expect(page).toHaveURL(GeneralData.checkoutStepTwoUrl);
+    await checkoutStepTwoPage.finishButton.click();
+    await expect(page).toHaveURL(GeneralData.checkoutCompleteUrl);
+  });
+
+  test('@Smoke - Complete checkout flow with 6 items in the cart', async ({ page }) => {
+    const productsPage = new ProductsPage(page);
+    const shoppingCartPage = new ShoppingCartPage(page);
+    const checkoutStepOnePage = new CheckoutStepOnePage(page);
+    const checkoutStepTwoPage = new CheckoutStepTwoPage(page);
+    await productsPage.backpackAddToCartButton.click();
+    await productsPage.bikeAddToCartButton.click();
+    await productsPage.shirtAddToCartButton.click();
+    await productsPage.jacketAddToCartButton.click();
+    await productsPage.onesieAddToCartButton.click();
+    await productsPage.redShirtAddToCartButton.click();
     await productsPage.shoppingCartButton.click();
     await shoppingCartPage.checkoutButton.click();
     await expect(page).toHaveURL(GeneralData.checkoutStepOneUrl);
